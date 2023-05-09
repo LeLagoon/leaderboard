@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaderboard System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet"> <!-- Add the Google Fonts link -->
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: black;
+    }
+    
+    #container {
+      text-align: center;
+      font-family: 'Outfit', sans-serif; /* Apply the Outfit font from Google Fonts */
+    }
+    
+    h1 {
+      color: #fff;
+      font-size: 48px; /* Increase the font size for the heading */
+    }
+    
+    table {
+      border-collapse: collapse;
+      margin-top: 20px;
+      width: 1000px; /* Increase the width of the leaderboard */
+      background-color: #222;
+    }
+    
+    th, td {
+      border: 1px solid black;
+      padding: 12px; /* Increase the padding for better spacing */
+      text-align: left;
+      color: #fff;
+    }
+    
+    .button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    button {
+      background-color: #444;
+      color: #fff;
+      border: none;
+      padding: 8px 16px; /* Increase the button padding */
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Leaderboard System</h1>
+
+    <table id="leaderboard">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Username</th>
+          <th>Points</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboardBody">
+        <tr>
+          <td><span id="rank1">1</span></td>
+          <td><span id="username1">User 1</span></td>
+          <td><span id="points1">0</span></td>
+          <td class="button-container"><button onclick="addPoints(0)">Add Points</button></td>
+        </tr>
+        <tr>
+          <td><span id="rank2">2</span></td>
+          <td><span id="username2">User 2</span></td>
+          <td><span id="points2">0</span></td>
+          <td class="button-container"><button onclick="addPoints(1)">Add Points</button></td>
+        </tr>
+        <tr>
+          <td><span id="rank3">3</span></td>
+          <td><span id="username3">User 3</span></td>
+          <td><span id="points3">0</span></td>
+          <td class="button-container"><button onclick="addPoints(2)">Add Points</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <script>
+    // Leaderboard data
+    var leaderboardData = [
+      { rank: document.getElementById("rank1"), username: document.getElementById("username1"), points: document.getElementById("points1") },
+      { rank: document.getElementById("rank2"), username: document.getElementById("username2"), points: document.getElementById("points2") },
+      { rank: document.getElementById("rank3"), username: document.getElementById("username3"), points: document.getElementById("points3") }
+    ];
+    
+    // Function to add points to the leaderboard
+    function addPoints(index) {
+      var user = leaderboardData[index];
+      
+      var points = parseInt(user.points.innerHTML);
+      points += 100;
+      user.points.innerHTML = points.toString();
+      
+      leaderboardData.sort(function(a, b) {
+        return parseInt(b.points.innerHTML) - parseInt(a.points.innerHTML
+    )});
+      
+      var leaderboardBody = document.getElementById("leaderboardBody");
+      leaderboardBody.innerHTML = "";
+
+      leaderboardData.forEach(function(data, index) {
+        data.rank.innerHTML = (index + 1).toString();
+        
+        var row = document.createElement("tr");
+        var rankCell = document.createElement("td");
+        var usernameCell = document.createElement("td");
+        var pointsCell = document.createElement("td");
+        var buttonCell = document.createElement("td");
+        var addButton = document.createElement("button");
+        
+        rankCell.appendChild(data.rank);
+        usernameCell.appendChild(data.username);
+        pointsCell.appendChild(data.points);
+        
+        addButton.innerHTML = "Add Points";
+        addButton.setAttribute("onclick", "addPoints(" + index + ")");
+        
+        buttonCell.classList.add("button-container");
+        buttonCell.appendChild(addButton);
+        
+        row.appendChild(rankCell);
+        row.appendChild(usernameCell);
+        row.appendChild(pointsCell);
+        row.appendChild(buttonCell);
+        
+        leaderboardBody.appendChild(row);
+      });
+    }
+  </script>
+</body>
+</html>
